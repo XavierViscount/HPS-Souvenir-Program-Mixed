@@ -9,16 +9,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="app.js?v=5" defer></script>
+  <script src="app.js?v=6" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <header class="app-header">
       <div class="brand-lockup" aria-label="Honesty Private School">
         <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none"><path d="M16 4.5v23M4.5 16h23M7.9 7.9l16.2 16.2M24.1 7.9 7.9 24.1"/><circle cx="16" cy="16" r="4.2"/></svg>
+          <img src="assets/logo/image.png" alt="HPS Logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
         </span>
         <span class="brand-copy"><strong>HONESTY</strong><small>PRIVATE SCHOOL</small></span>
       </div>
@@ -66,11 +66,16 @@
       <section class="screen choice-screen" data-screen="choice" hidden>
         <p class="eyebrow">02 / ORDER TYPE</p>
         <h1>ပန်းစည်းပုံစံ<br>ရွေးချယ်ပါ</h1>
-        <p class="intro-copy">ပန်းတစ်မျိုးစီ ရွေးချယ်နိုင်သလို ပန်း ၁၀ မျိုးအစုံကိုလည်း မှာယူနိုင်ပါသည်။</p>
+        <p class="intro-copy">ပန်းအမျိုးအစားစုံ၊ ပန်းတစ်မျိုးတည်း သို့မဟုတ် ပန်း ၁၀ မျိုးအစုံကို ရွေးချယ်နိုင်ပါသည်။</p>
         <div class="mode-list">
           <button class="mode-row" type="button" data-mode="individual">
             <span class="mode-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z"/><path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12m9.9 9.9 2.12 2.12M2 12h3m14 0h3M4.93 19.07l2.12-2.12m9.9-9.9 2.12-2.12"/></svg></span>
             <span class="mode-copy"><strong>ကိုယ်တိုင်ရွေးချယ်မည်</strong><small>ပန်းအမျိုးအစားနှင့် အရေအတွက်ကို သတ်မှတ်ရန်</small></span>
+            <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+          </button>
+          <button class="mode-row" type="button" data-mode="single">
+            <span class="mode-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21V11m0 2c-3-1-5-3-5-6 3 0 5 2 5 5m0 2c3-1 5-3 5-6-3 0-5 2-5 5"/><circle cx="12" cy="7" r="3"/></svg></span>
+            <span class="mode-copy"><strong>ပန်းတစ်မျိုးတည်း</strong><small>ပန်းအမျိုးအစားတစ်မျိုးနှင့် အရေအတွက်ကို ရွေးရန်</small></span>
             <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
           </button>
           <button class="mode-row mode-all" type="button" data-mode="all">
@@ -89,9 +94,26 @@
         </div>
         <p class="intro-copy compact-copy">ပန်းတစ်မျိုးစီ၏ အရေအတွက်ကို ချိန်ညှိပါ။ စုစုပေါင်း ၁၀ ပွင့်အထိ ရွေးချယ်နိုင်ပါသည်။</p>
         <div class="flower-list" id="flower-list"></div>
-        <div class="selection-footer">
+        <div class="selection-footer single-footer">
           <div class="selection-summary"><span>ရွေးချယ်ထားသည်</span><strong><b id="selected-total">0</b><small> / 10</small></strong></div>
           <button class="primary-button" id="review-individual" type="button" disabled>စစ်ဆေးရန် <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button>
+        </div>
+      </section>
+
+      <section class="screen picker-screen single-screen" data-screen="single" hidden>
+        <div class="screen-heading">
+          <div><p class="eyebrow">03 / ONE FLOWER TYPE</p><h1>ပန်းတစ်မျိုးရွေးပါ</h1></div>
+          <button class="small-link" type="button" data-back="choice">ပုံစံပြောင်းရန်</button>
+        </div>
+        <p class="intro-copy compact-copy">ပန်းအမျိုးအစားတစ်မျိုးကို ရွေးပြီး ပွင့်ရေအတွက်ကို သတ်မှတ်ပါ။</p>
+        <div class="single-flower-grid" id="single-flower-grid"></div>
+        <div class="selection-footer">
+          <div class="selection-summary"><span>ရွေးချယ်ထားသည်</span><strong><b id="single-total">0</b><small> / 10</small></strong></div>
+          <div class="quantity-control single-quantity-control">
+            <button class="stepper-button" id="single-minus" type="button" aria-label="Remove one flower" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+            <button class="stepper-button" id="single-plus" type="button" aria-label="Add one flower" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+          <button class="primary-button" id="review-single" type="button" disabled>စစ်ဆေးရန် <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button>
         </div>
       </section>
 
@@ -102,6 +124,12 @@
         </div>
         <p class="intro-copy compact-copy">အစုံတွင်ပါဝင်မည့် ပန်းအမျိုးအစားများကို စစ်ဆေးပါ။</p>
         <div class="all-flower-grid" id="all-flower-grid"></div>
+        <fieldset class="arrangement-picker" aria-label="ပန်းစည်းပုံစံ">
+          <legend>ပန်းစည်းပုံစံ</legend>
+          <label><input type="radio" name="arrangement-all" value="balanced" data-arrangement-radio checked><span>ညီညာ</span></label>
+          <label><input type="radio" name="arrangement-all" value="compact" data-arrangement-radio><span>ကျစ်လျစ်</span></label>
+          <label><input type="radio" name="arrangement-all" value="fan" data-arrangement-radio><span>ယပ်ပုံ</span></label>
+        </fieldset>
         <div class="selection-footer all-footer">
           <button class="text-button" type="button" data-back="choice"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7 7-7-7 7-7"/></svg> နောက်သို့</button>
           <button class="primary-button" id="submit-all" type="button">အော်ဒါတင်ရန် <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button>
@@ -116,6 +144,12 @@
           <div class="review-heading"><span>ရွေးချယ်ထားသောပန်း</span><strong id="review-total"></strong></div>
           <div id="review-items"></div>
         </div>
+        <fieldset class="arrangement-picker" aria-label="ပန်းစည်းပုံစံ">
+          <legend>ပန်းစည်းပုံစံ</legend>
+          <label><input type="radio" name="arrangement-review" value="balanced" data-arrangement-radio checked><span>ညီညာ</span></label>
+          <label><input type="radio" name="arrangement-review" value="compact" data-arrangement-radio><span>ကျစ်လျစ်</span></label>
+          <label><input type="radio" name="arrangement-review" value="fan" data-arrangement-radio><span>ယပ်ပုံ</span></label>
+        </fieldset>
         <div class="selection-footer review-footer">
           <button class="text-button" type="button" data-back="individual"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7 7-7-7 7-7"/></svg> ပြင်ဆင်ရန်</button>
           <button class="primary-button" id="submit-individual" type="button">အော်ဒါတင်ရန် <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button>

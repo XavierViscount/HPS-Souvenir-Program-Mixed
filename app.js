@@ -21,7 +21,7 @@ const iconPaths = {
 };
 
 const burmeseDigits = "၀၁၂၃၄၅၆၇၈၉";
-const state = { studentId: "", mode: "", counts: new Map() };
+const state = { studentId: "", mode: "", counts: new Map(), arrangement: "balanced" };
 const screens = [...document.querySelectorAll("[data-screen]")];
 const toast = document.getElementById("toast");
 let toastTimer;
@@ -166,6 +166,44 @@ function renderAllFlowers() {
   }
 }
 
+function renderSingleFlowers() {
+  const grid = document.getElementById("single-flower-grid");
+  grid.replaceChildren();
+  for (const flower of flowers) {
+    const option = document.createElement("button");
+    option.type = "button";
+    option.className = "single-flower-option";
+    option.classList.toggle("is-selected", state.counts.has(flower.id));
+    option.setAttribute("aria-pressed", String(state.counts.has(flower.id)));
+    option.append(makeThumbnail(flower));
+    const name = document.createElement("strong");
+    name.textContent = flower.name;
+    const key = document.createElement("small");
+    key.textContent = flower.key;
+    option.append(name, key);
+    option.addEventListener("click", () => {
+      state.counts.clear();
+      state.counts.set(flower.id, 1);
+      renderSingleFlowers();
+    });
+    grid.append(option);
+  }
+  const total = state.counts.values().next().value || 0;
+  document.getElementById("single-total").textContent = toBurmese(total);
+  document.getElementById("single-minus").disabled = total === 0;
+  document.getElementById("single-plus").disabled = total === 0 || total >= MAX_FLOWERS;
+  document.getElementById("review-single").disabled = total === 0;
+}
+
+function changeSingleQuantity(delta) {
+  const [flowerId, current] = state.counts.entries().next().value || [];
+  if (!flowerId) return;
+  const next = Math.max(0, Math.min(MAX_FLOWERS, current + delta));
+  if (next) state.counts.set(flowerId, next);
+  else state.counts.clear();
+  renderSingleFlowers();
+}
+
 function renderReview() {
   document.getElementById("review-student-id").textContent = state.studentId;
   document.getElementById("review-total").textContent = `${toBurmese(selectedTotal())} ပွင့်`;
@@ -202,6 +240,7 @@ function submitOrder() {
     student_id: state.studentId,
     mode: state.mode,
     flower_ids: ids,
+    arrangement: state.arrangement,
   };
 
   if (!telegramApp || typeof telegramApp.sendData !== "function") {
@@ -229,9 +268,16 @@ document.querySelectorAll("[data-mode]").forEach(button => {
   button.addEventListener("click", () => {
     state.mode = button.dataset.mode;
     state.counts.clear();
+    state.arrangement = "balanced";
+    document.querySelectorAll("[data-arrangement-radio]").forEach(radio => {
+      radio.checked = radio.value === "balanced";
+    });
     if (state.mode === "individual") {
       renderPicker();
       showScreen("individual");
+    } else if (state.mode === "single") {
+      renderSingleFlowers();
+      showScreen("single");
     } else {
       renderAllFlowers();
       showScreen("all");
@@ -242,15 +288,29 @@ document.querySelectorAll("[data-mode]").forEach(button => {
 document.querySelectorAll("[data-back]").forEach(button => {
   button.addEventListener("click", () => {
     const destination = button.dataset.back;
-    if (destination === "individual") showScreen("individual");
+    if (destination === "individual" && state.mode === "single") {
+      renderSingleFlowers();
+      showScreen("single");
+    }
+    else if (destination === "individual") showScreen("individual");
     else showScreen(destination);
   });
+});
+
+document.querySelectorAll("[data-arrangement-radio]").forEach(radio => {
+  radio.addEventListener("change", () => { state.arrangement = radio.value; });
 });
 
 document.getElementById("review-individual").addEventListener("click", () => {
   renderReview();
   showScreen("review");
 });
+document.getElementById("review-single").addEventListener("click", () => {
+  renderReview();
+  showScreen("review");
+});
+document.getElementById("single-minus").addEventListener("click", () => changeSingleQuantity(-1));
+document.getElementById("single-plus").addEventListener("click", () => changeSingleQuantity(1));
 document.getElementById("submit-individual").addEventListener("click", submitOrder);
 document.getElementById("submit-all").addEventListener("click", submitOrder);
 document.getElementById("close-app").addEventListener("click", () => {

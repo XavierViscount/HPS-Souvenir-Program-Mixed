@@ -49,4 +49,4 @@ py -3 -m http.server 8000
 
 Then open `http://127.0.0.1:8000/mini_app/`. Local HTTP is only for preview; Telegram needs the deployed public HTTPS address.
 
-The all-10 choice currently generates a bouquet with one of each flower. The premade bouquet artwork can replace this generated arrangement when it is provided.
+Order choices include a mixed bouquet with adjustable quantities, one flower type with an adjustable quantity, and the existing set of all 10 flower types (one each). Each order can use a balanced, compact, or fan-shaped arrangement. The selected preset changes the flower spread in the generated card; the default for older Mini App payloads remains balanced.
